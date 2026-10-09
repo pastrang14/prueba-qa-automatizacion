@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
-// La palabra 'extends' significa que HomePage hereda todo lo de BasePage
+
 export class HomePage extends BasePage {
     
     // Declaración de Localizadores (LOCATORS)
