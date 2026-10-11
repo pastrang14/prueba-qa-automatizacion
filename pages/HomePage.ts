@@ -9,7 +9,7 @@ export class HomePage extends BasePage {
 
     readonly productResults: Locator;
     readonly noResultsMessage: Locator;
-
+    readonly signInButton: Locator;
     constructor(page: Page) {
         super(page);
         
@@ -18,6 +18,7 @@ export class HomePage extends BasePage {
         this.productResults = page.locator('.product-miniature');
         this.noResultsMessage = page.locator('.alert.alert-warning');
         this.noResultsMessage = page.locator('#product-search-no-matches');
+        this.signInButton = page.locator('.user-info a'); //Locator de button SingIn
     }
 
     async searchProduct(productName: string) {
@@ -28,5 +29,6 @@ export class HomePage extends BasePage {
         // Busca dentro de la lista de sugerencias el elemento <li> que contenga el texto exacto y le hace clic
         await this.searchSuggestionsList.locator('li', { hasText: exactProductName }).first().click();
     }
+
 
 }
