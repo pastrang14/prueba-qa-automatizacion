@@ -33,3 +33,14 @@ npm install
 
 # 4. Instalar los navegadores requeridos por Playwright
 npx playwright install chromium
+
+## Decisiones de Arquitectura y Consideraciones de Prueba
+
+Como parte de las buenas prácticas de ingeniería de calidad aplicadas en este proyecto, se tomaron las siguientes decisiones de diseño:
+
+### 1. Estructura del Page Object Model (POM)
+Se decidió agrupar lógicamente los componentes de interfaz para evitar la sobre-ingeniería. Por ejemplo, el **Modal de Confirmación** al agregar un artículo se encapsuló dentro de la clase `ProductPage`. Dado que este modal es una respuesta directa e inmediata a la acción "Add to cart" y no representa una navegación hacia una pantalla completamente nueva, mantenerlo en la misma clase centraliza la lógica del flujo de compra inicial y respeta el principio de responsabilidad única.
+
+### 2. Manejo de Estado en el Carrito (CP-02)
+Durante la ejecución del CP-02 (Gestión del Carrito), se identificó un comportamiento de persistencia de sesión en el entorno de pruebas (`teststore.automationtesting.co.uk`). En ocasiones, el carrito conserva productos residuales de ejecuciones previas (sesiones "fantasma" del servidor). 
+* **Enfoque adoptado:** Para cumplir estrictamente con los pasos solicitados en la matriz de pruebas, el script automatizado se enfoca exclusivamente en validar la adición, cálculo y eliminación del producto objetivo del caso de prueba. La limpieza de productos residuales ajenos al flujo actual se consideró fuera del alcance de este script específico para mantener la aserción concentrada en el criterio de aceptación principal.

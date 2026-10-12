@@ -16,7 +16,6 @@ export class HomePage extends BasePage {
         this.searchInput = page.locator('input.ui-autocomplete-input'); 
         this.searchSuggestionsList = page.locator('.ui-autocomplete'); 
         this.productResults = page.locator('.product-miniature');
-        this.noResultsMessage = page.locator('.alert.alert-warning');
         this.noResultsMessage = page.locator('#product-search-no-matches');
         this.signInButton = page.locator('.user-info a'); //Locator de button SingIn
     }
