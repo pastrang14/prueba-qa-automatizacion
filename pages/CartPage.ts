@@ -33,5 +33,9 @@ export class CartPage extends BasePage{
         await this.lineQuantity.press('Enter'); 
     }
 
+    getProductNameInCart(productName: string): Locator {
+        return this.page.getByText(productName);
+    }
+
     
 }

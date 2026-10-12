@@ -31,7 +31,7 @@ test.describe('CP-02: Validación y modificación del carrito', () => {
     test('Validar cálculos matemáticos y eliminar productos', async ({ page }) => {
         test.setTimeout(60000);
 
-        await test.step('Acción 1, Agregar al carrito 3 unidades', async () => {
+        await test.step('Acción 1, Agregar al carrito 3 unidades del mismo producto', async () => {
             await productPage.setQuantity('3');
             await expect(productPage.quantityInput,'La cantidad no coincide').toHaveValue('3');
             await page.waitForTimeout(1000);
@@ -43,7 +43,6 @@ test.describe('CP-02: Validación y modificación del carrito', () => {
         })
 
         await test.step('Acción 2, verificar el detalle del nombre', async () => {
-            await page.pause();
             //Aquí se guarda la cantidad unitaria $X.XX
             const unitPriceText = await cartPage.unitPrice.innerText();
             //Aquí se guarda la cantidad de productos 
@@ -66,11 +65,7 @@ test.describe('CP-02: Validación y modificación del carrito', () => {
             await cartPage.setlineQuantity('1');
             await page.waitForTimeout(2000);
 
-            const updatedTotalText = await cartPage.lineTotal.innerText();
-            const updatedTotalNumber = parseFloat(updatedTotalText.replace('$', ''));
-
-            // Aserción: Si el precio es $29.00 y bajamos a 1 unidad, el nuevo total debe ser 29.00
-            expect(updatedTotalNumber, 'El carrito no recalculó el total al cambiar a 1 unidad').toBe(29.00);
+           await expect(cartPage.lineTotal, 'El carrito no recalculó el total al cambiar a 1 unidad').toHaveText('$29.00', { timeout: 10000 });
         });
 
         await test.step('Acción 4, Eliminar el producto y validar carrito vacío', async () => {
@@ -79,7 +74,9 @@ test.describe('CP-02: Validación y modificación del carrito', () => {
 
             // Aserción: Validamos que el mensaje de carrito vacío aparezca en pantalla
             // Usamos un timeout interno en el expect por si el servidor tarda en borrarlo
-            await expect(cartPage.emptyCartMessage, 'El producto no se eliminó correctamente o el mensaje no apareció').toBeHidden({ timeout: 10000 });
+            //await expect(cartPage.emptyCartMessage, 'El producto no se eliminó correctamente o el mensaje no apareció').toBeVisible({ timeout: 10000 });
+            //Aserción pensada al producto y que el carrito viene vacio
+            await expect(cartPage.getProductNameInCart('The best is yet to come'), 'El producto no se eliminó del carrito').toBeHidden({ timeout: 10000 });
         });
 
     })

@@ -10,7 +10,7 @@ test.describe('CP-03: Busqueda sin reusltados', () => {
            
             await homePage.navigate();  //Ubicarnos en el sitio
             
-            await homePage.searchProduct('xyzqw123'); //Ubicarnos en el buscador e ingresar busqueda
+            await homePage.searchProduct('xyzqw123'); //Ya se habia utilizado con best en la prueba 1
             
             await page.keyboard.press('Enter'); // Simula presionar Enter para ejecutar la búsqueda
             
@@ -22,9 +22,9 @@ test.describe('CP-03: Busqueda sin reusltados', () => {
             // Verificar mediante el ID que el mensaje de error  está visible
             await expect(homePage.noResultsMessage, 'Fallo: No se mostró el mensaje de error de búsqueda').toBeVisible();
         
-        })
+        });
 
         
-    })
+    });
     
-})
+});

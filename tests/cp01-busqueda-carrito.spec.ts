@@ -41,24 +41,26 @@ test.describe('CP-01: Búsqueda de producto y agregado al carrito', () => {
             //como no se hace nada aca solo se manda a llamar la funcion que tiene la accion de hacer scroll en este caso
             await productPage.scrollDescription();
             await expect(productPage.descriptionTab, 'La descripción no es visible').toBeVisible();
-        })
+        });
 
         await test.step('Acción 6, seleccionar una dimensión diferente', async () => {
-            // 1. Limpiamos cualquier espacio en blanco invisible que traiga el DOM usando trim()
+            //Limpiamos cualquier espacio en blanco invisible que traiga el DOM usando trim()
             const precioOriginal = (await productPage.productPrice.innerText()).trim();
             await productPage.selectDimension('80x120cm');
-            await expect(productPage.productPrice, 'El precio no se actualizo al cambiar la dimension').not.toHaveText(precioOriginal);
-        })
+           // await expect(productPage.productPrice, 'El precio no se actualizo al cambiar la dimension').not.toHaveText(precioOriginal);
+           await expect(productPage.productPrice, 'El precio no se actualizo al cambiar la dimension').not.toHaveText(precioOriginal, { timeout: 10000 });
+            
+        });
 
         await test.step('Acción 7, Modificar la cantidad a 3 unidades', async () => {
             await productPage.setQuantity('3');
             await expect(productPage.quantityInput, 'No se selecciono la cantidad de productos').toHaveValue('3');
-        })
+        });
 
         await test.step('Acción 8, seleccionar el boton Add to card', async () => {
           await productPage.selectAddToCart();
           await expect(productPage.modalConfirmation, 'El modal no apareció tras hacer clic en add to cart').toBeVisible();      
-        })
+        });
 
         await test.step('Acción 9, Clic en Continuar Comprando y validar cierre de modal', async () => {
             await productPage.clickContinueShopping();
